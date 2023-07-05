@@ -57,7 +57,7 @@ require 'session.php'
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-bag"></i></div>
                             Pembeli
                         </a>
-                        <a class="nav-link" href="transaksi.php">
+                        <a class="nav-link" href="./page/transaksi.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
                             Transaksi
                         </a>
@@ -133,7 +133,7 @@ require 'session.php'
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
-                                                        <form method="POST">
+                                                        <form method="POST" enctype="multipart/form-data">
                                                             <div class="modal-body">
                                                                 <input type="text" name="nama" value="<?= $nama; ?>" class="form-control" required>
                                                                 <br />
@@ -149,7 +149,14 @@ require 'session.php'
                                                                 <br />
                                                                 <input type="hidden" name="id" value="<?= $id; ?>">
                                                                 <br />
-                                                                <button type="submit" name="updatebarang" class="btn btn-warning">Update</button>
+                                                                <img src="cdn/<?= $gambar; ?>" alt="Product Image" width="200" height="110">
+                                                                <input type="hidden" name="pathgambar" value="<?= $gambar; ?>">
+                                                                <input type="file" name="gambar" id="gambarInput" accept=".png, .jpg, .jpeg">
+                                                                <br>
+                                                                <div id="selectedFileName"></div>
+                                                                <br>
+                                                                <button type="submit" name="updatebarang" class="btn btn-primary">Update</button>
+                                                                <br>
                                                             </div>
                                                         </form>
                                                     </div>

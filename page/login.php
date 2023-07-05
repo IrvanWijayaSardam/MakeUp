@@ -11,7 +11,7 @@ if (isset($_POST['login'])) {
 
     if ($hitung > 0) {
         $_SESSION['sessioninfo'] = 'True';
-        header('location:./index.php');
+        header('location:../index.php');
     } else {
         header('location:login.php');
     };
@@ -19,7 +19,7 @@ if (isset($_POST['login'])) {
 
 if (!isset($_SESSION['sessioninfo'])) {
 } else {
-    header('location:./index.php');
+    header('location:../index.php');
 }
 
 ?>
