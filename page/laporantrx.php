@@ -42,7 +42,6 @@ require '../session.php'
                                 </h3>
                                 <img src="../assets/img/settings.png" alt="" style="margin-left: 70px;">
                             </div>
-
                             <?php
                         }
                         ?>
@@ -64,7 +63,7 @@ require '../session.php'
                             <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
                             Proses Transaksi
                         </a>
-                        <a class="nav-link" href="laporantrx.php">
+                        <a class="nav-link" href="transaksi.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
                             Laporan Transaksi
                         </a>
@@ -77,61 +76,49 @@ require '../session.php'
             </nav>
         </div>
         <div id="layoutSidenav_content">
+            ```php
             <main>
                 <div class="container-fluid">
-                    <h1 class="mt-4">Proses Transaksi</h1>
+                    <h1 class="mt-4">Laporan Transaksi</h1>
                     <div class="card mb-4">
-                        <div class="card-header">
-                            <div class="card-header d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary ml-2" data-toggle="modal"
-                                    data-target="#transaksimodal">Checkout</button>
-                            </div>
-                        </div>
-                        <h3 class="mt-4 text-center">Data Barang</h3>
+                        <h3 class="mt-4 text-center">Data Transaksi</h3>
                         <form method="POST" id="checkoutForm">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Nama</th>
-                                        <th>Merek</th>
-                                        <th>Deskripsi</th>
-                                        <th>Stok</th>
-                                        <th>Harga Jual</th>
-                                        <th>Gambar</th>
-                                        <th>Qty Beli</th>
+                                        <th>Nama Pelaggan</th>
+                                        <th>Nama Admin</th>
+                                        <th>Tanggal Transaksi</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $viewhandphone = mysqli_query($conn, "SELECT * FROM `tb_barang`");
+                                    $viewhandphone = mysqli_query($conn, "SELECT * FROM vw_transaksi");
                                     while ($data = mysqli_fetch_array($viewhandphone)) {
                                         $id = $data['id'];
+                                        $nama_admin = $data['nama_admin'];
+                                        $nama_pelanggan = $data['nama_pelanggan'];
+                                        $tanggal_transaksi = $data['tgl_transaksi'];
                                         ?>
                                         <tr>
                                             <td>
                                                 <?= $id; ?>
                                             </td>
                                             <td>
-                                                <?= $data['nama']; ?>
+                                                <?= $data['nama_pelanggan']; ?>
                                             </td>
                                             <td>
-                                                <?= $data['merek']; ?>
+                                                <?= $data['nama_admin']; ?>
                                             </td>
                                             <td>
-                                                <?= $data['deskripsi']; ?>
+                                                <?= $data['tgl_transaksi']; ?>
                                             </td>
                                             <td>
-                                                <?= $data['stok']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $data['harga_jual']; ?>
-                                            </td>
-                                            <td><img src="../cdn/<?= $data['gambar']; ?>" alt="Gambar Barang" width="100"
-                                                    height="100"></td>
-                                            <td>
-                                                <input type="number" class="form-control" id="inputNumber<?= $id; ?>"
-                                                    placeholder="Qty" min="0" name="qty[]" data-barang-id="<?= $id; ?>">
+                                                <button style="margin: 2px;" type="button" class="btn btn-warning"
+                                                    data-toggle="modal"
+                                                    data-target="#modalupdate<?= $id; ?>">Detail</button>
                                             </td>
                                         </tr>
                                         <?php
@@ -140,20 +127,103 @@ require '../session.php'
                                 </tbody>
                             </table>
                         </form>
-
                     </div>
                 </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; <a href="https://acbagusid.anandanesia.com/about.html"
-                                style="text-decoration:none;">Kelompok6 2021</a></div>
+                        <div class="text-muted">Copyright &copy;
+                            <a href="https://acbagusid.anandanesia.com/about.html"
+                                style="text-decoration:none;">Kelompok6 2021</a>
+                        </div>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
+    </div>
+    </div>
+
+    <?php
+    $viewhandphone = mysqli_query($conn, "SELECT * FROM vw_transaksi");
+    while ($data = mysqli_fetch_array($viewhandphone)) {
+        $id = $data['id'];
+        $nama_admin = $data['nama_admin'];
+        $nama_pelanggan = $data['nama_pelanggan'];
+        $tanggal_transaksi = $data['tgl_transaksi'];
+        ?>
+        <div class="modal fade" id="modalupdate<?= $id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Transaksi</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <p>ID Transaksi:</p>
+                            <input type="text" name="id" value="<?= $id; ?>" class="form-control" disabled>
+                            <br>
+                            <p>Nama Pelanggan:</p>
+                            <input type="text" name="nama" value="<?= $nama_pelanggan; ?>" class="form-control" disabled>
+                            <br>
+                            <p>Nama Admin:</p>
+                            <input type="text" name="nama_admin" value="<?= $nama_admin; ?>" class="form-control" disabled>
+                            <br>
+                            <p>Tanggal Transaksi:</p>
+                            <input type="text" name="tgl_transaksi" value="<?= $tanggal_transaksi; ?>" class="form-control"
+                                disabled>
+                            <br>
+                            <table class="table table-bordered mt-4">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama</th>
+                                        <th>Qty</th>
+                                        <th>Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $detail_transaksi = mysqli_query($conn, "SELECT * FROM vw_transaksi_detail WHERE id_transaksi = '$id'");
+                                    while ($detail = mysqli_fetch_array($detail_transaksi)) {
+                                        $detail_id = $detail['id_transaksi'];
+                                        $nama = $detail['nama'];
+                                        $qty = $detail['qty'];
+                                        $total_price = $detail['total_price'];
+                                        ?>
+                                        <tr>
+                                            <td>
+                                                <?= $detail_id; ?>
+                                            </td>
+                                            <td>
+                                                <?= $nama; ?>
+                                            </td>
+                                            <td>
+                                                <?= $qty; ?>
+                                            </td>
+                                            <td>
+                                                <?= $total_price; ?>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
@@ -170,104 +240,7 @@ require '../session.php'
         $(document).ready(function () {
             $('#dataTable').DataTable();
         });
-
-        $(document).on('submit', '#checkoutForm', function (e) {
-            e.preventDefault();
-
-            const pembeli = $('select[name="pembeli"]').val();
-            const pegawai = $('select[name="pgw"]').val();
-
-            const formElements = document.querySelectorAll("#dataTable input[name='qty[]']");
-            const barangList = [];
-            const qtyList = [];
-
-            formElements.forEach((input) => {
-                const barangId = input.dataset.barangId;
-                const qty = input.value;
-                if (qty > 0) {
-                    barangList.push(barangId);
-                    qtyList.push(qty);
-                }
-            });
-
-            const itemData = {
-                barang: barangList,
-                qty: qtyList
-            };
-
-            const jsonData = JSON.stringify(itemData);
-
-            $.ajax({
-                url: 'transaksi.php',
-                method: 'POST',
-                data: {
-                    savetransaksi: true,
-                    pembeli: pembeli,
-                    pgw: pegawai,
-                    itemData: jsonData
-                },
-                success: function (response) {
-                    $('#transaksimodal').modal('hide');
-                    alert('Transaksi Sukses');
-                    location.reload();
-                    console.log(response);
-                },
-                error: function (xhr, status, error) {
-                    // Handle any errors that occur during the AJAX request
-                    console.error(error);
-                }
-            });
-        });
-
-
     </script>
 </body>
-<!-- Modal -->
-<div class="modal fade" id="transaksimodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Data Pembeli</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form method="POST" id="checkoutForm">
-                <div class="modal-body">
-                    <select name="pembeli" class="form-control">
-                        <option selected value="<?= $idpembeli; ?>">pilih pembeli</option>
-                        <?php
-                        $tampilanpembeli = mysqli_query($conn, "select * from tb_pelanggan");
-                        while ($fetcharray = mysqli_fetch_array($tampilanpembeli)) {
-                            $nama_list = $fetcharray['nama_depan'];
-                            $idpembeli = $fetcharray['id'];
-                            ?>
-                            <option value="<?= $idpembeli; ?>"><?= $nama_list; ?></option>
-
-                            <?php
-                        }
-                        ?>
-                    </select>
-                    <br />
-                    <select name="pgw" class="form-control">
-                        <option selected value="<?= $idpegawai; ?>">pilih pegawai</option>
-                        <?php
-                        $tampilanpegawai = mysqli_query($conn, "select * from tb_admin");
-                        while ($fetcharray = mysqli_fetch_array($tampilanpegawai)) {
-                            $namapegawai = $fetcharray['nama_depan'];
-                            $idpgw = $fetcharray['id'];
-                            ?>
-                            <option value="<?= $idpgw; ?>"><?= $namapegawai; ?></option>
-                            <?php
-                        }
-                        ?>
-                    </select>
-                    <br />
-                    <button type="submit" name="savetransaksi" class="btn btn-primary">Buat Transaksi</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 </html>

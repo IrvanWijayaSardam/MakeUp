@@ -69,6 +69,18 @@ if (isset($_POST['updatebarang'])) {
     // Handle file upload
 }
 
+if (isset($_POST['deletebarang'])) {
+	$id_barang = $_POST['idbarang'];
+
+	$deletebarang = mysqli_query($conn, "DELETE FROM tb_barang WHERE id='$id_barang'");
+	if ($deletebarang) {
+		header('location:index.php');
+	} else {
+		echo "gagal";
+		header('location:index.php');
+	}
+}
+
 // insert transaksi
 // Checkout process
 if (isset($_POST['savetransaksi'])) {
