@@ -1,7 +1,24 @@
 <?php
 require '../repository/dbquery.php';
-require '../session.php'
-    ?>
+require '../session.php';
+
+// Get the admin ID from the session
+$admin_id = $_SESSION['admin_id'];
+
+// Retrieve the admin's profile picture using the admin ID
+$query = "SELECT nama_depan,profile FROM tb_admin WHERE id = $admin_id";
+$result = mysqli_query($conn, $query);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $admin = mysqli_fetch_assoc($result);
+    $profile_picture = $admin['profile'];
+    $admin_name = $admin['nama_depan'];
+} else {
+    // Default profile picture if no result found
+    $profile_picture = "default.jpg";
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +29,7 @@ require '../session.php'
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Record Transaksi</title>
+    <title>Make Up Dashboard | Transaksi</title>
     <link href="../css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
         crossorigin="anonymous" />
@@ -22,37 +39,33 @@ require '../session.php'
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand" href="../page/transaksi.php">Record Transaksi</a>
-        <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i
-                class="fas fa-bars"></i></button>
+        <a class="navbar-brand" href="../index.php">Make Up Dashboard</a>
+        <div class="ml-auto"> <!-- Add a div with the "ml-auto" class for right alignment -->
+            <a class="nav-link" href="../logout.php">
+                <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
+                Logout
+            </a>
+        </div>
+    </nav>
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <?php
-                        $password = mysqli_query($conn, "select * from tb_admin");
-                        while ($list = mysqli_fetch_array($password)) {
-                            $name = $list['password'];
-                            ?>
-                            <div>
-                                <h3 class="sb-sidenav-menu-heading" style="margin-left: 35px;">Welcome
-                                    <?= $name; ?>
-                                </h3>
-                                <img src="../assets/img/settings.png" alt="" style="margin-left: 70px;">
-                            </div>
-
-                            <?php
-                        }
-                        ?>
-
+                        <div>
+                            <h3 class="sb-sidenav-menu-heading" style="margin-left: 35px;">Welcome
+                                <?= $admin_name; ?>
+                            </h3>
+                            <img src="../cdn/profile/<?= $profile_picture; ?>" alt="" style="margin-left: 50px;"
+                                width=100px>
+                        </div>
                         <div class="sb-sidenav-menu-heading">Menu</div>
                         <a class="nav-link" href="../index.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-layer-group"></i></div>
                             Data Make Up
                         </a>
-                        <a class="nav-link" href="pegawai.php">
+                        <a class="nav-link" href="../page/pegawai.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-tie"></i></div>
                             Pegawai
                         </a>
@@ -60,17 +73,13 @@ require '../session.php'
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-bag"></i></div>
                             Pembeli
                         </a>
-                        <a class="nav-link" href="transaksi.php">
+                        <a class="nav-link" href="./page/transaksi.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
                             Proses Transaksi
                         </a>
-                        <a class="nav-link" href="laporantrx.php">
+                        <a class="nav-link" href="../page/laporantrx.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
                             Laporan Transaksi
-                        </a>
-                        <a class="nav-link" href="logout.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
-                            Logout
                         </a>
                     </div>
                 </div>

@@ -10,17 +10,20 @@ if (isset($_POST['login'])) {
     $hitung = mysqli_num_rows($cekdata);
 
     if ($hitung > 0) {
-        $_SESSION['sessioninfo'] = 'True';
+        $admin = mysqli_fetch_assoc($cekdata);
+        $_SESSION['sessioninfo'] = true;
+        $_SESSION['admin_id'] = $admin['id']; // Store the ID in the session
         header('location:../index.php');
     } else {
         header('location:login.php');
-    };
-};
+    }
+}
 
 if (!isset($_SESSION['sessioninfo'])) {
 } else {
     header('location:../index.php');
 }
+
 
 ?>
 

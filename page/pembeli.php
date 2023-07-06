@@ -1,6 +1,6 @@
 <?php
-require './repository/dbquery.php';
-require 'session.php';
+require '../repository/dbquery.php';
+require '../session.php';
 
 // Get the admin ID from the session
 $admin_id = $_SESSION['admin_id'];
@@ -29,8 +29,8 @@ if ($result && mysqli_num_rows($result) > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Make Up Dashboard | Data Makeup</title>
-    <link href="css/styles.css" rel="stylesheet" />
+    <title>Make Up Dashboard | Pembeli</title>
+    <link href="../css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
         crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
@@ -38,8 +38,8 @@ if ($result && mysqli_num_rows($result) > 0) {
 </head>
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand" href="index.php">Make Up Dashboard</a>
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand" href="../index.php">Make Up Dashboard</a>
         <div class="ml-auto"> <!-- Add a div with the "ml-auto" class for right alignment -->
             <a class="nav-link" href="../logout.php">
                 <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
@@ -57,15 +57,15 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <h3 class="sb-sidenav-menu-heading" style="margin-left: 35px;">Welcome
                                 <?= $admin_name; ?>
                             </h3>
-                            <img src="cdn/profile/<?= $profile_picture; ?>" alt="" style="margin-left: 50px;"
+                            <img src="../cdn/profile/<?= $profile_picture; ?>" alt="" style="margin-left: 50px;"
                                 width=100px>
                         </div>
                         <div class="sb-sidenav-menu-heading">Menu</div>
-                        <a class="nav-link" href="index.php">
+                        <a class="nav-link" href="../index.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-layer-group"></i></div>
                             Data Make Up
                         </a>
-                        <a class="nav-link" href="./page/pegawai.php">
+                        <a class="nav-link" href="../page/pegawai.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-tie"></i></div>
                             Pegawai
                         </a>
@@ -73,11 +73,11 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-bag"></i></div>
                             Pembeli
                         </a>
-                        <a class="nav-link" href="./page/transaksi.php">
+                        <a class="nav-link" href="../page/transaksi.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
                             Proses Transaksi
                         </a>
-                        <a class="nav-link" href="./page/laporantrx.php">
+                        <a class="nav-link" href="../page/laporantrx.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
                             Laporan Transaksi
                         </a>
@@ -88,12 +88,12 @@ if ($result && mysqli_num_rows($result) > 0) {
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
-                    <h1 class="mt-4">Data Make Up</h1>
+                    <h1 class="mt-4">Data Pembeli</h1>
                     <div class="card mb-4">
                         <div class="card-header">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#hpmodal">
-                                Tambah Stock
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pembelimodal">
+                                Tambah Pembeli
                             </button>
                         </div>
                         <div class="card-body">
@@ -102,69 +102,56 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Nama</th>
-                                            <th>Merek</th>
-                                            <th>Deskripsi</th>
-                                            <th>Stok</th>
-                                            <th>Harga Beli</th>
-                                            <th>Harga Jual</th>
-                                            <th>Gambar</th>
+                                            <th>Nama Depan</th>
+                                            <th>Nama Belakang</th>
+                                            <th>Email</th>
+                                            <th>Telp</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $viewhandphone = mysqli_query($conn, "SELECT * FROM `tb_barang`");
-                                        while ($data = mysqli_fetch_array($viewhandphone)) {
-                                            $id = $data['id'];
-                                            $nama = $data['nama'];
-                                            $merek = $data['merek'];
-                                            $deskripsi = $data['deskripsi'];
-                                            $stok = $data['stok'];
-                                            $harga_beli = $data['harga_beli'];
-                                            $harga_jual = $data['harga_jual'];
-                                            $gambar = $data['gambar'];
+                                        $viewpelanggan = mysqli_query($conn, "SELECT * FROM tb_pelanggan");
+                                        while ($data = mysqli_fetch_array($viewpelanggan)) {
+                                            $id_pelanggan = $data['id'];
+                                            $nama_depan = $data['nama_depan'];
+                                            $nama_belakang = $data['nama_belakang'];
+                                            $email = $data['email'];
+                                            $telp = $data['notelp'];
                                             ?>
                                             <tr>
                                                 <td>
-                                                    <?= $id; ?>
+                                                    <?= $id_pelanggan; ?>
                                                 </td>
                                                 <td>
-                                                    <?= $nama; ?>
+                                                    <?= $nama_depan; ?>
                                                 </td>
                                                 <td>
-                                                    <?= $merek; ?>
+                                                    <?= $nama_belakang; ?>
                                                 </td>
                                                 <td>
-                                                    <?= $deskripsi; ?>
+                                                    <?= $email; ?>
                                                 </td>
                                                 <td>
-                                                    <?= $stok ?>
+                                                    <?= $telp; ?>
                                                 </td>
-                                                <td>
-                                                    <?= "Rp " . $harga_beli; ?>
-                                                </td>
-                                                <td>
-                                                    <?= "Rp " . $harga_jual; ?>
-                                                </td>
-                                                <td><img src="cdn/<?= $gambar; ?>" alt="Product Image" width="200"
-                                                        height="110"></td>
                                                 <td>
                                                     <button style="margin: 2px;" type="button" class="btn btn-warning"
                                                         data-toggle="modal"
-                                                        data-target="#modalupdate<?= $id; ?>">Update</button>
+                                                        data-target="#pgwmodalupdate<?= $id_pelanggan; ?>">update</button>
                                                     <button style="margin: 2px;" type="button" class="btn btn-danger"
                                                         data-toggle="modal"
-                                                        data-target="#modaldelete<?= $id; ?>">Delete</button>
+                                                        data-target="#pgwmodaldelete<?= $id_pelanggan; ?>">delete</button>
                                                 </td>
                                             </tr>
-                                            <!-- update modal -->
-                                            <div class="modal fade" id="modalupdate<?= $id; ?>" tabindex="-1"
+
+                                            <!-- modal update pegawai -->
+                                            <div class="modal fade" id="pgwmodalupdate<?= $id_pelanggan; ?>" tabindex="-1"
                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Update Barang
+                                                            <h5 class="modal-title" id="exampleModalLabel">Update Data Pelanggan
                                                             </h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
@@ -173,55 +160,37 @@ if ($result && mysqli_num_rows($result) > 0) {
                                                         </div>
                                                         <form method="POST" enctype="multipart/form-data">
                                                             <div class="modal-body">
-                                                                <input type="text" name="nama" value="<?= $nama; ?>"
-                                                                    class="form-control" required>
+                                                                <input type="text" name="namadepan"
+                                                                    value="<?= $nama_depan; ?>" class="form-control">
                                                                 <br />
-                                                                <input type="text" name="merek" value="<?= $merek; ?>"
-                                                                    class="form-control" required>
+                                                                <input type="text" name="namabelakang"
+                                                                    value="<?= $nama_belakang; ?>" class="form-control">
                                                                 <br />
-                                                                <input type="text" name="deskripsi"
-                                                                    value="<?= $deskripsi; ?>" class="form-control"
-                                                                    required>
+                                                                <input type="text" name="email" value="<?= $email; ?>"
+                                                                    class="form-control">
                                                                 <br />
-                                                                <input type="number" name="stok" value="<?= $stok; ?>"
-                                                                    class="form-control" required>
+                                                                <input type="text" name="notelp" value="<?= $telp; ?>"
+                                                                    class="form-control">
                                                                 <br />
-                                                                <input type="number" name="harga_beli"
-                                                                    value="<?= $harga_beli; ?>" class="form-control"
-                                                                    required>
+                                                                <input type="hidden" name="idpelanggan"
+                                                                    value="<?= $id_pelanggan; ?>">
                                                                 <br />
-                                                                <input type="number" name="harga_jual"
-                                                                    value="<?= $harga_jual; ?>" class="form-control"
-                                                                    required>
-                                                                <br />
-                                                                <input type="hidden" name="id" value="<?= $id; ?>">
-                                                                <br />
-                                                                <img src="cdn/<?= $gambar; ?>" alt="Product Image"
-                                                                    width="200" height="110">
-                                                                <input type="hidden" name="pathgambar"
-                                                                    value="<?= $gambar; ?>">
-                                                                <input type="file" name="gambar" id="gambarInput"
-                                                                    accept=".png, .jpg, .jpeg">
-                                                                <br>
-                                                                <div id="selectedFileName"></div>
-                                                                <br>
-                                                                <button type="submit" name="updatebarang"
-                                                                    class="btn btn-primary">Update</button>
-                                                                <br>
+                                                                <button type="submit" name="updatepelanggan"
+                                                                    class="btn btn-warning">Update</button>
                                                             </div>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- update modal -->
+                                            <!-- modal update pegawai -->
 
-                                            <!-- delete modal -->
-                                            <div class="modal fade" id="modaldelete<?= $id; ?>" tabindex="-1"
+                                            <!-- delete modal pegawai -->
+                                            <div class="modal fade" id="pgwmodaldelete<?= $id_pelanggan; ?>" tabindex="-1"
                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Hapus Barang</h5>
+                                                            <h5 class="modal-title" id="exampleModalLabel">Hapus KB</h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
@@ -230,33 +199,32 @@ if ($result && mysqli_num_rows($result) > 0) {
                                                         <form method="POST">
                                                             <div class="modal-body">
                                                                 <fieldset disabled>
-                                                                    <input type="text" name="nama" value="<?= $nama; ?>"
-                                                                        class="form-control" required>
+                                                                    <input type="text" name="nama" value="<?= $nama_depan; ?>"
+                                                                        class="form-control">
                                                                     <br />
-                                                                    <input type="text" name="merek" value="<?= $merek; ?>"
-                                                                        class="form-control" required>
+                                                                    <input type="text" name="nohp" value="<?= $nama_belakang; ?>"
+                                                                        class="form-control">
                                                                     <br />
                                                                 </fieldset>
                                                                 <br />
-                                                                Apakah anda yakin ingin menghapus barang ini ?
+                                                                Apakah anda ingin menghapus data admin ini?
                                                                 <br />
                                                                 <br />
-                                                                <input type="hidden" name="idbarang" value="<?= $id; ?>">
-                                                                <button type="submit" name="deletebarang"
+                                                                <input type="hidden" name="idpelanggan" value="<?= $id_pelanggan; ?>">
+                                                                <button type="submit" name="deletepelangggan"
                                                                     class="btn btn-danger">Hapus</button>
                                                             </div>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- delete modal -->
+                                            <!-- delete modal pegawai-->
 
                                             <?php
                                         }
                                         ;
 
                                         ?>
-
                                     </tbody>
                                 </table>
                             </div>
@@ -268,7 +236,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                 <div class="container-fluid">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; <a href="https://acbagusid.anandanesia.com/about.html"
-                                style="text-decoration:none;">Belajar PHP </a></div>
+                                style="text-decoration:none;">Kelompok6 2021</a></div>
                     </div>
                 </div>
             </footer>
@@ -286,36 +254,27 @@ if ($result && mysqli_num_rows($result) > 0) {
     <script src="assets/demo/datatables-demo.js"></script>
 </body>
 
-<div class="modal fade" id="hpmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="pembelimodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Stock</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Pembeli</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <input type="text" name="nama_barang" placeholder="Nama Barang" class="form-control" required>
-                    <br>
-                    <input type="text" name="merek_barang" placeholder="Merek" class="form-control" required>
-                    <br>
-                    <input type="text" name="deskripsi_barang" placeholder="Deskripsi" class="form-control" rows="3"
-                        required>
-                    <br>
-                    <input type="number" name="stok_barang" placeholder="Stok" class="form-control" required>
-                    <br>
-                    <input type="number" name="harga_beli" placeholder="Harga Beli" class="form-control" required>
-                    <br>
-                    <input type="number" name="harga_jual" placeholder="Harga Jual" class="form-control" required>
-                    <br>
-                    <input type="file" name="gambar" id="gambarInput" accept=".png, .jpg, .jpeg" required>
-                    <br>
-                    <div id="selectedFileName"></div>
-                    <br>
-                    <button type="submit" name="insertbarang" class="btn btn-primary">Tambah</button>
-                    <br>
+                    <input type="text" name="namadepan" placeholder="Nama Depan" class="form-control">
+                    <br />
+                    <input type="text" name="namabelakang" placeholder="Nama Belakang" class="form-control">
+                    <br />
+                    <input type="text" name="email" placeholder="Email" class="form-control">
+                    <br />
+                    <input type="text" name="notelp" placeholder="Nomor Telp" class="form-control">
+                    <br />
+                    <button type="submit" name="insertpelanggan" class="btn btn-primary">Tambah</button>
                 </div>
             </form>
 
